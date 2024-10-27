@@ -1,0 +1,8 @@
+Flask
+Flask-RESTful
+Flask-SQLAlchemy
+pandas
+SQLAlchemy
+python-dateutil
+pytz
+fpdf

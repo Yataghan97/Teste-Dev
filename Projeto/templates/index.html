@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicação de Vendas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Aplicação de Vendas</h1>
+
+        <form id="upload-form" enctype="multipart/form-data">
+            <label for="file">Carregar Arquivo CSV:</label>
+            <input type="file" id="file" name="file" accept=".csv" required>
+            <button type="submit">Enviar</button>
+        </form>
+
+        <div id="feedback" style="margin-top: 20px;"></div>
+
+        <form id="generate-pdf-form" action="/generate_pdf" method="get" style="margin-top: 20px;">
+            <button type="submit">Gerar Relatório Diário em PDF</button>
+        </form>
+
+        <form id="view-vendas-form" action="/vendas" method="get" style="margin-top: 20px;">
+            <button type="submit">Ver Vendas</button>
+        </form>
+
+        <form id="vendas-summary-form" action="/vendas/summary" method="get" style="margin-top: 20px;">
+            <button type="submit">Ver Resumo de Vendas</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('upload-form').addEventListener('submit', function(e) {
+            e.preventDefault(); // Impede o comportamento padrão do formulário
+
+            const formData = new FormData(this);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('feedback').innerText = data.mensagem;
+            })
+            .catch(error => {
+                document.getElementById('feedback').innerText = 'Erro ao enviar o arquivo.';
+                console.error('Erro:', error);
+            });
+        });
+    </script>
+</body>
+</html>
